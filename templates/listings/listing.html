@@ -1,0 +1,217 @@
+{% extends 'base.html' %}
+
+{% load humanize %}
+
+{% block title %} | {{listing.title}} {% endblock %}
+
+{% block content %}
+    
+      <!-- Breadcrumb -->
+      <section id="bc" class="mt-3">
+        <div class="container" style="margin-top: 150px;">
+          <nav>
+            <ol class="breadcrumb">
+              <li class="breadcrumb-item">
+                <a href="{% url '/' %}" style="color: black; font-family: 'JetBrains Mono', monospace;"><i class="fas fa-home" style="color: black;"></i> Home </a>
+              </li>
+              {% if listing.user_id == request.user.id %}
+              <li class="breadcrumb-item">
+                <a href="{% url 'my_listings' %}" style="color: black; font-family: 'JetBrains Mono', monospace;"> My Featured Listings</a>
+              </li>
+              {% else %}
+              <li class="breadcrumb-item">
+                <a href="{% url 'listings' %}" style="color: black; font-family: 'JetBrains Mono', monospace;">Listings</a>
+              </li>
+              {% endif %}
+              <li class="breadcrumb-item active" style="color: black; font-family: 'JetBrains Mono', monospace;">{{listing.title}}</li>
+            </ol>
+          </nav>
+        </div>
+      </section>
+    
+<!-- alerts -->
+{% include 'partials/_alert.html' %}
+        <div class="container" style="background-color: #f9f9f9; font-family: 'JetBrains Mono', monospace;">
+          <div class="row text-center">
+            <div class="col-md-12">
+              <h4 class="display-4" style="font-weight: bolder; font-size: 25px;">{{ listing.title }}</h4>
+              <p class="lead" style="font-size: 13px;">
+                <i class="fas fa-map-marker"></i> {{ listing.town }} {{listing.address }}</p>
+            </div>
+          </div>
+        </div>
+
+
+<section id="listing" class="py-4" style="font-family: 'JetBrains Mono', monospace;">
+        <div class="container">
+          <div class="row">
+            <div class="col-md-9">
+              <!-- Home Main Image -->
+              <img src="{{ listing.photo_main.url }}" alt="" class="img-main img-fluid mb-3">
+              <!-- Thumbnails -->
+              <div class="row mb-5 thumbs">
+                  {% if listing.photo_1 %}
+                <div class="col-md-2">
+                  <a href="{{ listing.photo_1.url }}" data-lightbox="home-images">
+                    <img src="{{ listing.photo_1.url }}" alt="" class="img-fluid">
+                  </a>
+                </div>
+                {% endif %}
+                {% if listing.photo_2 %}
+                <div class="col-md-2">
+                  <a href="{{ listing.photo_2.url }}" data-lightbox="home-images">
+                    <img src="{{ listing.photo_2.url }}" alt="" class="img-fluid">
+                  </a>
+                </div>
+                {% endif %}
+                {% if listing.photo_3 %}
+                <div class="col-md-2">
+                  <a href="{{ listing.photo_3.url }}" data-lightbox="home-images">
+                    <img src="{{ listing.photo_3.url }}" alt="" class="img-fluid">
+                  </a>
+                </div>
+                {% endif %}
+                {% if listing.photo_4 %}
+                <div class="col-md-2">
+                  <a href="{{ listing.photo_4.url }}" data-lightbox="home-images">
+                    <img src="{{ listing.photo_4.url }}" alt="" class="img-fluid">
+                  </a>
+                </div>
+                {% endif %}
+                {% if listing.photo_5 %}
+                <div class="col-md-2">
+                  <a href="{{ listing.photo_5.url }}" data-lightbox="home-images">
+                    <img src="{{ listing.photo_5.url }}" alt="" class="img-fluid">
+                  </a>
+                </div>
+                {% endif %}
+                {% if listing.photo_6 %}
+                <div class="col-md-2">
+                  <a href="{{ listing.photo_6.url }}" data-lightbox="home-images">
+                    <img src="{{ listing.photo_6.url }}" alt="" class="img-fluid">
+                  </a>
+                </div>
+                {% endif %}
+              </div>
+              <!-- Fields -->
+              <div class="row mb-5 fields">
+                <div class="col-md-6">
+                  <ul class="list-group list-group-flush">
+                    <li class="list-group-item text-secondary">
+                      <i class="fas fa-money-bill-alt"></i> Asking Price:
+                      <span class="float-right">KES {{listing.price | intcomma }}</span>
+                    </li>
+                    <li class="list-group-item text-secondary">
+                      <i class="fas fa-bed"></i> Bedrooms:
+                      <span class="float-right">{{listing.bedrooms}}</span>
+                    </li>
+                    <li class="list-group-item text-secondary">
+                      <i class="fas fa-bath"></i> Bathrooms:
+                      <span class="float-right">{{listing.bathrooms}}</span>
+                    </li> 
+                    <li class="list-group-item text-secondary">
+                      <i class="fas fa-car"></i> Has a garage?
+                      <span class="float-right">{{listing.garage}}
+                      </span>
+                    </li>
+                  </ul>
+                </div>
+                <div class="col-md-6">
+                  <ul class="list-group list-group-flush">
+                    <li class="list-group-item text-secondary">
+                      <i class="fas fa-th-large"></i> Square Feet:
+                      <span class="float-right">{{listing.sqft}}</span>
+                    </li>
+                    <li class="list-group-item text-secondary">
+                      <i class="fas fa-square"></i> Lot Size:
+                      <span class="float-right">{{listing.lot_size}}
+                      </span>
+                    </li>
+                    <li class="list-group-item text-secondary">
+                      <i class="fas fa-calendar"></i> Created:
+                      <span class="float-right">{{listing.listing_date | timesince }}</span>
+                    </li>
+                    <li class="list-group-item text-secondary"> 
+                      <i class="fas fa-bed"></i> Realtor:
+                      <span class="float-right">{{listing.realtor}}
+                      </span>
+                    </li>
+    
+    
+                  </ul>
+                </div>
+              </div>
+    
+              <!-- Description -->
+              <div class="row mb-5" style="font-family: 'JetBrains Mono', monospace;">
+                <div class="col-md-12">
+                  {{ listing.description }}
+                </div>
+              </div>
+            </div>
+            <div class="col-md-3">
+              <div class="card mb-3" style="background-color: #f9f9f9;">
+                <img class="card-img-top" src="{{ listing.realtor.photo.url }}" alt="Seller of the month">
+                <div class="card-body">
+                  <h5 class="card-title">Property Realtor</h5>
+                  <h6 class="text-secondary">{{ listing.realtor }}</h6>
+                </div>
+              </div>
+              {% if listing.user_id != request.user.id %}
+              <button class="btn-primary btn-block btn-lg" data-toggle="modal" data-target="#inquiryModal" style="background-color: #31326f !important;">Make An Inquiry</button>
+              {% endif %}
+            </div>
+          </div>
+        </div>
+      </section>
+    
+      <!-- Inquiry Modal -->
+      <div class="modal fade" id="inquiryModal" role="dialog">
+        <div class="modal-dialog">
+          <div class="modal-content">
+            <div class="modal-header">
+              <h5 class="modal-title" id="inquiryModalLabel" style="font-family: 'JetBrains Mono', monospace; font-weight: bolder;">Make An Inquiry</h5>
+              <button type="button" class="close" data-dismiss="modal" style="background-color: #31326f !important;">
+                <span>&times;</span>
+              </button>
+            </div>
+            <div class="modal-body" style="background-color: #f9f9f9; font-family: 'JetBrains Mono', monospace;">
+              <form action="{% url 'contact' %}" method="POST" >
+                {% csrf_token %}
+                {% if user.is_authenticated %}
+                  <input type="hidden" name="user_id" value="{{ user.id }}">
+                {% else %}
+                  <input type="hidden" name="user_id" value="0">
+                {% endif %}
+                  <input type="hidden" name="realtor_email" value="{{ listing.realtor.email }}">
+                  <input type="hidden" name="listing_id" value="{{ listing.id }}">
+                <div class="form-group">
+                  <label for="property_name" class="col-form-label">Property:</label>
+                  <input type="text" name="listing" class="form-control" value="{{ listing.title }}">
+                </div>
+                <div class="form-group">
+                  <label for="name" class="col-form-label">Name:</label>
+                  <input type="text" name="name" class="form-control" {% if user.is_authenticated %} value="{{ user.first_name }} {{user.last_name }}" {% endif %} required>
+                </div>
+                <div class="form-group">
+                  <label for="email" class="col-form-label">Email:</label>
+                  <input type="email" name="email" class="form-control" {% if user.is_authenticated %} value="{{ user.email }}" {% endif %} required>
+                </div>
+                <div class="form-group">
+                  <label for="phone" class="col-form-label">Phone:</label>
+                  <input type="text" name="phone" class="form-control">
+                </div>
+                <div class="form-group">
+                  <label for="message" class="col-form-label">Message:</label>
+                  <textarea name="message" class="form-control"></textarea>
+                </div>
+                <hr>
+                <input type="submit" value="Send" class="btn btn-block btn-secondary" style="background-color: #31326f !important;">
+              </form>
+            </div>
+          </div>
+        </div>
+      </div>
+    
+    
+{% endblock %}  
